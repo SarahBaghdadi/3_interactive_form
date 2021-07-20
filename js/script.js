@@ -20,9 +20,18 @@ const cvv = document.querySelector('#cvv');
 // Focus on name element after reload
 nameField.focus();
 
+// Name field keyup event validation check
+nameField.addEventListener('keyup', () => {
+    nameCheck();
+});
+
+// Email field keyup event validation check
+email.addEventListener('keyup', () => {
+    emailCheck();
+});
+
 // Show/hide other job role field
 otherJobRole.style.display='none';
-
 title.addEventListener('change', () => {
     if (title.value == 'other') {
         otherJobRole.style.display = 'block';
@@ -66,7 +75,7 @@ activitiesFieldset.addEventListener('change', (e) => {
     cost.textContent = `Total: $ ${currentCost}`;
 });
 
-// Activities  
+// Activities add/remove focus class
 activitiesFieldset.addEventListener('focus', (e) => {
  e.target.parentNode.className = 'focus';
 }, true);
@@ -74,6 +83,24 @@ activitiesFieldset.addEventListener('focus', (e) => {
 activitiesFieldset.addEventListener('blur', (e) => {
     e.target.parentNode.className='';
 }, true);
+
+// Activities - check for conflicting times & that at least one activity is checked
+activitiesFieldset.addEventListener('change', (e) => {
+    for (i = 0; i < activities.length; i++) {
+        if (activities[i] !== e.target) {
+            if (activities[i].dataset.dayAndTime == e.target.dataset.dayAndTime) {
+                activities[i].disabled = true;
+                activities[i].parentElement.className= 'disabled';
+            } 
+            
+            if (e.target.checked == false) {
+               activities[i].disabled = false;
+               activities[i].parentElement.className= '';
+            }
+        }
+    }
+    actCheck();
+});
 
 // Select CC option by default
 payment.options[1].selected = true;
@@ -119,6 +146,7 @@ const emailCheck = () => {
     if (email.value && /^\w{3,}@\w{3,}\.com$/.test(email.value)) {
         email.parentElement.className= "valid";
         email.parentElement.lastElementChild.style.display= 'none';
+        console.log('passed both checks');
         return true;
     } else {
         email.parentElement.className= "not-valid";
