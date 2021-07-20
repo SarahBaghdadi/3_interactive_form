@@ -149,6 +149,13 @@ const emailCheck = () => {
         console.log('passed both checks');
         return true;
     } else {
+        if (email.value) {
+            console.log('bad form');
+            email.nextElementSibling.textContent = 'Email address must be formatted correctly';
+        } else {
+            console.log('empty');
+            email.nextElementSibling.textContent = 'Please enter your email';
+        }
         email.parentElement.className= "not-valid";
         email.parentElement.lastElementChild.style.display= 'block';
         email.focus();
