@@ -1,41 +1,21 @@
-
-
-/* input and fieldset ids:
-name
-email
-title
-other-job-role
-size
-design
-color
-activities fieldset
-payment
-exp-month
-exp-year
-cc-num
-zip
-cvv */
-
-let form = document.querySelector('form');
-let nameField = document.querySelector('#name');
-let email = document.querySelector('#email');
-let title = document.querySelector('#title');
-let otherJobRole = document.querySelector('#other-job-role');
-let size = document.querySelector('#size');
-let design = document.querySelector('#design');
-let color = document.querySelector('#color');
-let activitiesFieldset = document.querySelector('#activities');
-let activities = document.querySelectorAll('#activities input');
-let cost = document.querySelector('#activities-cost');
-let payment = document.querySelector('#payment');
-let cc = document.querySelector('#credit-card');
-let paypal = document.querySelector('#paypal');
-let bitcoin = document.querySelector('#bitcoin')
-let expMonth = document.querySelector('#exp-month');
-let expYear = document.querySelector('#exp-year');
-let ccNum = document.querySelector('#cc-num');
-let zip = document.querySelector('#zip');
-let cvv = document.querySelector('#cvv');
+// form fields
+const form = document.querySelector('form');
+const nameField = document.querySelector('#name');
+const email = document.querySelector('#email');
+const title = document.querySelector('#title');
+const otherJobRole = document.querySelector('#other-job-role');
+const design = document.querySelector('#design');
+const color = document.querySelector('#color');
+const activitiesFieldset = document.querySelector('#activities');
+const activities = document.querySelectorAll('#activities input');
+const cost = document.querySelector('#activities-cost');
+const payment = document.querySelector('#payment');
+const cc = document.querySelector('#credit-card');
+const paypal = document.querySelector('#paypal');
+const bitcoin = document.querySelector('#bitcoin')
+const ccNum = document.querySelector('#cc-num');
+const zip = document.querySelector('#zip');
+const cvv = document.querySelector('#cvv');
 
 // Focus on name element after reload
 nameField.focus();
@@ -91,6 +71,7 @@ payment.options[1].selected = true;
 paypal.style.display = 'none';
 bitcoin.style.display='none';
 
+// Show appropriate div for each payment method
 payment.addEventListener('change', () => {
     switch (payment.value) {
         case 'credit-card':
@@ -111,15 +92,8 @@ payment.addEventListener('change', () => {
     }
 });
 
-/* nameField.value = 'Sarah Baghdadi';
-email.value = 'sarah@bagh.com';
-activities[2].checked = true;
-payment.value = 'credit-card';
-ccNum.value = '1234567891234';
-zip.value = '12345';
-cvv.value = '123'; */
-
-let nameCheck = () => {
+// Form validation helper functions
+const nameCheck = () => {
     if (nameField.value) {
         return true;
     } else {
@@ -128,7 +102,7 @@ let nameCheck = () => {
     }
 };
 
-let emailCheck = () => {
+const emailCheck = () => {
     if (email.value && /^\w{3,}@\w{3,}\.com$/.test(email.value)) {
         return true;
     } else {
@@ -138,7 +112,7 @@ let emailCheck = () => {
 
 };
 
-let actCheck = () => {
+const actCheck = () => {
     let actCount = 0;
     for (let i = 0; i < activities.length; i++) {    
         if (activities[i].checked) {
@@ -153,11 +127,11 @@ let actCheck = () => {
     }
 };
 
-let ccCheck = () => {
+const ccCheck = () => {
     if (payment.value == 'credit-card') {
-        let ccCheck = /^[0-9]{13,16}$/.test(ccNum.value);
-        let zipCheck = /^[0-9]{5}$/.test(zip.value);
-        let cvvCheck = /^[0-9]{3}$/.test(cvv.value);
+        const ccCheck = /^[0-9]{13,16}$/.test(ccNum.value);
+        const zipCheck = /^[0-9]{5}$/.test(zip.value);
+        const cvvCheck = /^[0-9]{3}$/.test(cvv.value);
         if (!ccCheck) {
             console.log('CC check failed');
             return false;
