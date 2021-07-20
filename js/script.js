@@ -57,7 +57,7 @@ design.addEventListener('change', () => {
 // On change to activity choices, add or subtract event cost from total displayed.
 currentCost = 0;
 activitiesFieldset.addEventListener('change', (e) => {
-    let eventCost = parseInt(e.target.dataset.cost);
+    const eventCost = parseInt(e.target.dataset.cost);
     if (e.target.checked ) {
         currentCost += eventCost;
     } else {
@@ -153,6 +153,7 @@ const ccCheck = () => {
         const ccCheck = /^[0-9]{13,16}$/.test(ccNum.value);
         const zipCheck = /^[0-9]{5}$/.test(zip.value);
         const cvvCheck = /^[0-9]{3}$/.test(cvv.value);
+        // This code block
         if (!ccCheck) {
             ccNum.parentElement.className= "not-valid";
             ccNum.parentElement.lastElementChild.style.display= 'block';
