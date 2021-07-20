@@ -66,6 +66,15 @@ activitiesFieldset.addEventListener('change', (e) => {
     cost.textContent = `Total: $ ${currentCost}`;
 });
 
+// Activities  
+activitiesFieldset.addEventListener('focus', (e) => {
+ e.target.parentNode.className = 'focus';
+}, true);
+
+activitiesFieldset.addEventListener('blur', (e) => {
+    e.target.parentNode.className='';
+}, true);
+
 // Select CC option by default
 payment.options[1].selected = true;
 paypal.style.display = 'none';
@@ -95,18 +104,26 @@ payment.addEventListener('change', () => {
 // Form validation helper functions
 const nameCheck = () => {
     if (nameField.value) {
+        nameField.parentElement.className= "valid";
+        nameField.parentElement.lastElementChild.style.display= 'none';
         return true;
     } else {
-        console.log('Name check failed');
+        nameField.parentElement.className= "not-valid";
+        nameField.focus();
+        nameField.parentElement.lastElementChild.style.display= 'block';
         return false;
     }
 };
 
 const emailCheck = () => {
     if (email.value && /^\w{3,}@\w{3,}\.com$/.test(email.value)) {
+        email.parentElement.className= "valid";
+        email.parentElement.lastElementChild.style.display= 'none';
         return true;
     } else {
-        console.log('Email check failed');
+        email.parentElement.className= "not-valid";
+        email.parentElement.lastElementChild.style.display= 'block';
+        email.focus();
         return false;
     }
 
@@ -120,9 +137,13 @@ const actCheck = () => {
         };
     }
     if (actCount > 0) {
+        activitiesFieldset.firstElementChild.className= "valid";
+        activitiesFieldset.lastElementChild.style.display= 'none';
         return true;
     } else {
-        console.log('Act check failed');
+        activitiesFieldset.firstElementChild.className= "not-valid";
+        activitiesFieldset.lastElementChild.style.display = 'block';
+        activitiesFieldset.focus();
         return false;
     }
 };
@@ -133,15 +154,27 @@ const ccCheck = () => {
         const zipCheck = /^[0-9]{5}$/.test(zip.value);
         const cvvCheck = /^[0-9]{3}$/.test(cvv.value);
         if (!ccCheck) {
-            console.log('CC check failed');
+            ccNum.parentElement.className= "not-valid";
+            ccNum.parentElement.lastElementChild.style.display= 'block';
+            ccNum.focus();
             return false;
         } else if (!zipCheck) {
-            console.log('Zip check failed');
+            ccNum.parentElement.className= "valid";
+            ccNum.parentElement.lastElementChild.style.display= 'none';
+            zip.parentElement.className= "not-valid";
+            zip.parentElement.lastElementChild.style.display= 'block';
+            zip.focus();
             return false;
         } else if (!cvvCheck) {
-            console.log('CVV check failed');
+            zip.parentElement.className= "valid";
+            zip.parentElement.lastElementChild.style.display= 'none';
+            cvv.parentElement.className= "not-valid";
+            cvv.parentElement.lastElementChild.style.display= 'block';
+            cvv.focus();
             return false;
         } else {
+            cvv.parentElement.className= "valid";
+            cvv.parentElement.lastElementChild.style.display= 'none';
             return true;
         }
     }
@@ -149,19 +182,18 @@ const ccCheck = () => {
 
 // Form submission & validation
 form.addEventListener('submit', (e) => {
-        if (!nameCheck()) {
-            return false;
-        } else if (!emailCheck()) {
-            return false;
-        } else if (!actCheck()) {
-            return false;
-        } else if (!ccCheck()){
-            return false;
-        } else {
-            console.log('submitted')
-            e.preventDefault();
-            return true;
-        }
+    e.preventDefault();
+    if (!nameCheck()) {
+        return false;
+    } else if (!emailCheck()) {
+        return false;
+    } else if (!actCheck()) {
+        return false;
+    } else if (!ccCheck()){
+        return false;
+    } else {
+        return true;
+    }
 });
 
 
