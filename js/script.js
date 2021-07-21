@@ -17,6 +17,9 @@ const ccNum = document.querySelector('#cc-num');
 const zip = document.querySelector('#zip');
 const cvv = document.querySelector('#cvv');
 
+/* Basic Info Section
+====================== */
+
 // Focus on name element after reload
 nameField.focus();
 
@@ -39,6 +42,9 @@ title.addEventListener('change', () => {
         otherJobRole.style.display = 'none';
     }
 });
+
+/* Tshirt Info Section
+====================== */
 
 // Disable color field until design is chosen
 color.disabled = true;
@@ -63,6 +69,9 @@ design.addEventListener('change', () => {
     }
 });
 
+/* Activities Section
+====================== */
+
 // On change to activity choices, add or subtract event cost from total displayed.
 currentCost = 0;
 activitiesFieldset.addEventListener('change', (e) => {
@@ -75,7 +84,7 @@ activitiesFieldset.addEventListener('change', (e) => {
     cost.textContent = `Total: $ ${currentCost}`;
 });
 
-// Activities add/remove focus class
+// Add/remove focus class
 activitiesFieldset.addEventListener('focus', (e) => {
  e.target.parentNode.className = 'focus';
 }, true);
@@ -84,7 +93,7 @@ activitiesFieldset.addEventListener('blur', (e) => {
     e.target.parentNode.className='';
 }, true);
 
-// Activities - check for conflicting times & that at least one activity is checked
+// Check for conflicting activity times & that at least one activity is checked
 activitiesFieldset.addEventListener('change', (e) => {
     for (i = 0; i < activities.length; i++) {
         if (activities[i] !== e.target) {
@@ -101,6 +110,9 @@ activitiesFieldset.addEventListener('change', (e) => {
     }
     actCheck();
 });
+
+/* Payment Info Section
+====================== */
 
 // Select CC option by default
 payment.options[1].selected = true;
@@ -128,9 +140,14 @@ payment.addEventListener('change', () => {
     }
 });
 
-// Form validation helper functions
+/* Form Validation
+====================== */
+
+// Validation helper functions
+
+ // Checks for empty name field
 const nameCheck = () => {
-    if (nameField.value) {
+    if (nameField.value) { 
         nameField.parentElement.className= "valid";
         nameField.parentElement.lastElementChild.style.display= 'none';
         return true;
@@ -142,6 +159,7 @@ const nameCheck = () => {
     }
 };
 
+// Checks for empty email field and tests content against regex
 const emailCheck = () => {
     if (email.value && /^\w{3,}@\w{3,}\.com$/.test(email.value)) {
         email.parentElement.className= "valid";
@@ -164,6 +182,7 @@ const emailCheck = () => {
 
 };
 
+// Checks that at least one activity is selected
 const actCheck = () => {
     let actCount = 0;
     for (let i = 0; i < activities.length; i++) {    
@@ -183,6 +202,7 @@ const actCheck = () => {
     }
 };
 
+// If credit card is payment method, checks cc number, zip code, and cvv against regex
 const ccCheck = () => {
     if (payment.value == 'credit-card') {
         const ccCheck = /^[0-9]{13,16}$/.test(ccNum.value);
@@ -216,7 +236,11 @@ const ccCheck = () => {
     }
 };
 
-// Form submission & validation
+
+/* Form Submission
+====================== */
+
+//Submit form and call validation helper functions
 form.addEventListener('submit', (e) => {
     e.preventDefault();
     if (!nameCheck()) {
