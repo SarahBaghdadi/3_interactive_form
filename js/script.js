@@ -58,11 +58,14 @@ design.addEventListener('change', () => {
     }
     if (design.value == 'js puns') {
         options = document.querySelectorAll('[data-theme="js puns"]');
+        options[0].selected = true;
+        console.log(options[0]);
         for (let i=0; i<options.length; i++){
             options[i].hidden = false;
         }
     } else {
         options = document.querySelectorAll('[data-theme="heart js"]');
+        options[0].selected = true;
         for (let i=0; i<options.length; i++){
             options[i].hidden = false;
         }
@@ -171,7 +174,7 @@ const nameCheck = () => {
 
 // Checks for empty email field and tests content against regex
 const emailCheck = () => {
-    if (email.value && /^\w{3,}@\w{3,}\.com$/.test(email.value)) {
+    if (email.value && /^\w{2,}@\w{2,}\.com$/.test(email.value)) {
         email.parentElement.className= "valid";
         email.parentElement.lastElementChild.style.display= 'none';
         return true;
@@ -208,41 +211,37 @@ const actCheck = () => {
     }
 };
 
-// If credit card is payment method, checks cc number against regex
+// Checks cc number against regex
 const ccNumCheck = () => {
-    if (payment.value == 'credit-card') {
-        const ccNumCheck = /^[0-9]{13,16}$/.test(ccNum.value);
-        if (!ccNumCheck) {
-            ccNum.parentElement.className= "not-valid";
-            ccNum.parentElement.lastElementChild.style.display= 'block';
-            ccNum.focus();
-            return false;
-        } else {
-            ccNum.parentElement.className= "valid";
-            ccNum.parentElement.lastElementChild.style.display= 'none';
-            return true;
-        }
+    const ccNumCheck = /^[0-9]{13,16}$/.test(ccNum.value);
+    if (!ccNumCheck) {
+        ccNum.parentElement.className= "not-valid";
+        ccNum.parentElement.lastElementChild.style.display= 'block';
+        ccNum.focus();
+        return false;
+    } else {
+        ccNum.parentElement.className= "valid";
+        ccNum.parentElement.lastElementChild.style.display= 'none';
+        return true;
     }
 };
 
-// If credit card is payment method, checks zip against regex
+// Checks zip against regex
 const zipCheck = () => {
-    if (payment.value == 'credit-card') {
-        const zipCheck = /^[0-9]{5}$/.test(zip.value);
-        if (!zipCheck) {
-            zip.parentElement.className= "not-valid";
-            zip.parentElement.lastElementChild.style.display= 'block';
-            zip.focus();
-            return false;
-        } else {
-            zip.parentElement.className= "valid";
-            zip.parentElement.lastElementChild.style.display= 'none';
-            return true;
-        }
+    const zipCheck = /^[0-9]{5}$/.test(zip.value);
+    if (!zipCheck) {
+        zip.parentElement.className= "not-valid";
+        zip.parentElement.lastElementChild.style.display= 'block';
+        zip.focus();
+        return false;
+    } else {
+        zip.parentElement.className= "valid";
+        zip.parentElement.lastElementChild.style.display= 'none';
+        return true;
     }
 };
 
-// If credit card is payment method, checks cvv against regex
+// Checks cvv against regex
 const cvvCheck = () => { 
     const cvvCheck = /^[0-9]{3}$/.test(cvv.value);   
     if (!cvvCheck) {
@@ -271,15 +270,17 @@ form.addEventListener('submit', (e) => {
     } else if (!actCheck()) {
         e.preventDefault();
         return false;
-    } else if (!ccNumCheck()){
-        e.preventDefault();
-        return false;
-    } else if (!zipCheck()){
-        e.preventDefault();
-        return false;
-    } else if (!cvvCheck()) {
-        e.preventDefault();
-        return false;
+    } else if (payment.value == 'credit-card') {
+        if (!ccNumCheck()){
+            e.preventDefault();
+            return false;
+        } else if (!zipCheck()){
+            e.preventDefault();
+            return false;
+        } else if (!cvvCheck()) {
+            e.preventDefault();
+            return false;
+        }
     } else {
         return true;
     }
