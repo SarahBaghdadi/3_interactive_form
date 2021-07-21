@@ -86,7 +86,7 @@ activitiesFieldset.addEventListener('change', (e) => {
 
 // Add/remove focus class
 activitiesFieldset.addEventListener('focus', (e) => {
- e.target.parentNode.className = 'focus';
+    e.target.parentNode.className = 'focus';
 }, true);
 
 activitiesFieldset.addEventListener('blur', (e) => {
@@ -101,7 +101,6 @@ activitiesFieldset.addEventListener('change', (e) => {
                 activities[i].disabled = true;
                 activities[i].parentElement.className= 'disabled';
             } 
-            
             if (e.target.checked == false) {
                activities[i].disabled = false;
                activities[i].parentElement.className= '';
@@ -153,12 +152,10 @@ cvv.addEventListener('keyup', () => {
     cvvCheck();
 });
 
-/* Form Validation
+/* Form validation helper functions
 ====================== */
 
-// Validation helper functions
-
- // Checks for empty name field
+// Checks for empty name field
 const nameCheck = () => {
     if (nameField.value) { 
         nameField.parentElement.className= "valid";
@@ -189,7 +186,6 @@ const emailCheck = () => {
         email.focus();
         return false;
     }
-
 };
 
 // Checks that at least one activity is selected
@@ -260,8 +256,6 @@ const cvvCheck = () => {
         return true;
     }
 };
-
-
 
 /* Form Submission
 ====================== */
