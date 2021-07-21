@@ -140,6 +140,11 @@ payment.addEventListener('change', () => {
     }
 });
 
+// CC field keyup event validation check
+cc.addEventListener('keyup', () => {
+    ccCheck();
+});
+
 /* Form Validation
 ====================== */
 
@@ -164,14 +169,11 @@ const emailCheck = () => {
     if (email.value && /^\w{3,}@\w{3,}\.com$/.test(email.value)) {
         email.parentElement.className= "valid";
         email.parentElement.lastElementChild.style.display= 'none';
-        console.log('passed both checks');
         return true;
     } else {
         if (email.value) {
-            console.log('bad form');
             email.nextElementSibling.textContent = 'Email address must be formatted correctly';
         } else {
-            console.log('empty');
             email.nextElementSibling.textContent = 'Please enter your email';
         }
         email.parentElement.className= "not-valid";
@@ -242,14 +244,17 @@ const ccCheck = () => {
 
 //Submit form and call validation helper functions
 form.addEventListener('submit', (e) => {
-    e.preventDefault();
     if (!nameCheck()) {
+        e.preventDefault();
         return false;
     } else if (!emailCheck()) {
+        e.preventDefault();
         return false;
     } else if (!actCheck()) {
+        e.preventDefault();
         return false;
     } else if (!ccCheck()){
+        e.preventDefault();
         return false;
     } else {
         return true;
