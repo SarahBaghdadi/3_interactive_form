@@ -141,8 +141,16 @@ payment.addEventListener('change', () => {
 });
 
 // CC field keyup event validation check
-cc.addEventListener('keyup', () => {
-    ccCheck();
+ccNum.addEventListener('keyup', () => {
+    ccNumCheck();
+});
+
+zip.addEventListener('keyup', () => {
+    zipCheck();
+});
+
+cvv.addEventListener('keyup', () => {
+    cvvCheck();
 });
 
 /* Form Validation
@@ -204,39 +212,55 @@ const actCheck = () => {
     }
 };
 
-// If credit card is payment method, checks cc number, zip code, and cvv against regex
-const ccCheck = () => {
+// If credit card is payment method, checks cc number against regex
+const ccNumCheck = () => {
     if (payment.value == 'credit-card') {
-        const ccCheck = /^[0-9]{13,16}$/.test(ccNum.value);
-        const zipCheck = /^[0-9]{5}$/.test(zip.value);
-        const cvvCheck = /^[0-9]{3}$/.test(cvv.value);
-        // This code block
-        if (!ccCheck) {
+        const ccNumCheck = /^[0-9]{13,16}$/.test(ccNum.value);
+        if (!ccNumCheck) {
             ccNum.parentElement.className= "not-valid";
             ccNum.parentElement.lastElementChild.style.display= 'block';
             ccNum.focus();
             return false;
-        } else if (!zipCheck) {
+        } else {
             ccNum.parentElement.className= "valid";
             ccNum.parentElement.lastElementChild.style.display= 'none';
-            zip.parentElement.className= "not-valid";
-            zip.parentElement.lastElementChild.style.display= 'block';
-            zip.focus();
-            return false;
-        } else if (!cvvCheck) {
-            zip.parentElement.className= "valid";
-            zip.parentElement.lastElementChild.style.display= 'none';
-            cvv.parentElement.className= "not-valid";
-            cvv.parentElement.lastElementChild.style.display= 'block';
-            cvv.focus();
-            return false;
-        } else {
-            cvv.parentElement.className= "valid";
-            cvv.parentElement.lastElementChild.style.display= 'none';
             return true;
         }
     }
 };
+
+// If credit card is payment method, checks zip against regex
+const zipCheck = () => {
+    if (payment.value == 'credit-card') {
+        const zipCheck = /^[0-9]{5}$/.test(zip.value);
+        if (!zipCheck) {
+            zip.parentElement.className= "not-valid";
+            zip.parentElement.lastElementChild.style.display= 'block';
+            zip.focus();
+            return false;
+        } else {
+            zip.parentElement.className= "valid";
+            zip.parentElement.lastElementChild.style.display= 'none';
+            return true;
+        }
+    }
+};
+
+// If credit card is payment method, checks cvv against regex
+const cvvCheck = () => { 
+    const cvvCheck = /^[0-9]{3}$/.test(cvv.value);   
+    if (!cvvCheck) {
+        cvv.parentElement.className= "not-valid";
+        cvv.parentElement.lastElementChild.style.display= 'block';
+        cvv.focus();
+        return false;
+    } else {
+        cvv.parentElement.className= "valid";
+        cvv.parentElement.lastElementChild.style.display= 'none';
+        return true;
+    }
+};
+
 
 
 /* Form Submission
@@ -253,13 +277,16 @@ form.addEventListener('submit', (e) => {
     } else if (!actCheck()) {
         e.preventDefault();
         return false;
-    } else if (!ccCheck()){
+    } else if (!ccNumCheck()){
+        e.preventDefault();
+        return false;
+    } else if (!zipCheck()){
+        e.preventDefault();
+        return false;
+    } else if (!cvvCheck()) {
         e.preventDefault();
         return false;
     } else {
         return true;
     }
 });
-
-
-
