@@ -263,25 +263,26 @@ const cvvCheck = () => {
 form.addEventListener('submit', (e) => {
     if (!nameCheck()) {
         e.preventDefault();
-        return false;
-    } else if (!emailCheck()) {
+    }  
+    if (!emailCheck()) {
         e.preventDefault();
-        return false;
-    } else if (!actCheck()) {
+    } 
+    if (!actCheck()) {
         e.preventDefault();
-        return false;
-    } else if (payment.value == 'credit-card') {
+    }
+    if (payment.value == 'credit-card') {
         if (!ccNumCheck()){
             e.preventDefault();
-            return false;
-        } else if (!zipCheck()){
+        }  
+        if (!zipCheck()){
             e.preventDefault();
-            return false;
-        } else if (!cvvCheck()) {
+        }  
+        if (!cvvCheck()) {
             e.preventDefault();
-            return false;
         }
     } else {
+        console.log('submitted');
+        e.target.submit();
         return true;
     }
 });
