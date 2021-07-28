@@ -280,9 +280,5 @@ form.addEventListener('submit', (e) => {
         if (!cvvCheck()) {
             e.preventDefault();
         }
-    } else {
-        console.log('submitted');
-        e.target.submit();
-        return true;
-    }
+    } 
 });
